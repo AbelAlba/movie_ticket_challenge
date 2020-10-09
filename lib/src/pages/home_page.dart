@@ -18,12 +18,12 @@ class _HomePageState extends State<HomePage> {
       extendBodyBehindAppBar: true,
       backgroundColor: Style.Colors.mainColor,
       appBar: AppBar(
-        elevation: 20,
+        elevation: 30,
         backgroundColor: Colors.transparent,
         centerTitle: true,
         leading: Icon(EvaIcons.menuOutline,color: Style.Colors.emphasisWhite),
         actions: <Widget>[
-          IconButton(icon: Icon(EvaIcons.searchOutline, color: Style.Colors.emphasisWhite),onPressed: null)
+          IconButton(icon: Icon(EvaIcons.searchOutline, color: Style.Colors.emphasisWhite),onPressed: (){print('Search');})
         ],
       ),
       body: Stack(
