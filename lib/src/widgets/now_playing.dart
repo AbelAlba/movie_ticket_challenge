@@ -79,7 +79,7 @@ class _NowPlayingState extends State<NowPlaying> {
                     alignment: Alignment.center,
                   fit: BoxFit.fitHeight,
                   colorFilter: ColorFilter.mode(Style.Colors.emphasisBlack.withOpacity(0.2), BlendMode.dstATop),
-                  image:NetworkImage('https://image.tmdb.org/t/p/original/'+movies[index].backPoster))
+                  image:NetworkImage('https://image.tmdb.org/t/p/original/'+movies[index+7].backPoster))
                 ),                
               ),
                 Container(
@@ -99,7 +99,7 @@ class _NowPlayingState extends State<NowPlaying> {
                   image: DecorationImage(
                     alignment: Alignment.center,
                     fit: BoxFit.fitHeight,                    
-                    image:NetworkImage('https://image.tmdb.org/t/p/original/'+movies[index].backPoster)
+                    image:NetworkImage('https://image.tmdb.org/t/p/original/'+movies[index+7].backPoster)
                   )
                 ),
               ),
@@ -107,17 +107,18 @@ class _NowPlayingState extends State<NowPlaying> {
                 top:250,
                 width: 250,
                 child: Container(
-                  width: 250,
+                  width: 400,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        movies[index].title,
+                        movies[index+7].title,
                         style: TextStyle(
                           height: 1,
                           color: Style.Colors.emphasisWhite,
                           fontWeight: FontWeight.bold,
-                          fontSize: 32.0, 
+                          fontSize: 28.0, 
                         ),
                       )
                     ],
@@ -125,11 +126,11 @@ class _NowPlayingState extends State<NowPlaying> {
                 ),
               ),
               Positioned(
-                bottom: 350,
+                bottom: 360,
                 height: 50,
                 width: MediaQuery.of(context).size.width,
                 child: Container(
-                  width: MediaQuery.of(context).size.width,
+                  width: 100,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -137,7 +138,7 @@ class _NowPlayingState extends State<NowPlaying> {
                      Container(
                        alignment: Alignment.center,
                        height: 200,
-                       width: 150,                        
+                       width: 130,                        
                         decoration: BoxDecoration(
                         boxShadow: [BoxShadow(
                           color: Style.Colors.emphasisBlack.withOpacity(0.4),
@@ -148,17 +149,16 @@ class _NowPlayingState extends State<NowPlaying> {
                         color: Style.Colors.emphasisRed,
                         shape: BoxShape.rectangle,
                         borderRadius: BorderRadius.circular(10),),
-                        child:Text('BUY TICKET',style:TextStyle(
+                        child:Text('Buy Ticket',style:TextStyle(
                           height: 1,
                           color: Style.Colors.emphasisWhite,
-                          fontWeight: FontWeight.w600,
                           fontSize: 18.0, 
                         ),),
                      ) 
                     ],
                   ),
                 ),
-              )
+              ),
               ],
             );
           },
@@ -193,7 +193,7 @@ class _NowPlayingState extends State<NowPlaying> {
             height: 25.0,
             width: 25.0,
             child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Style.Colors.emphasisWhite),
+              valueColor: AlwaysStoppedAnimation<Color>(Style.Colors.emphasisYellow),
               strokeWidth: 4.0,
             ),
           )
