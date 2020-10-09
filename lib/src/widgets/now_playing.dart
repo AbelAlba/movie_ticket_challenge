@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:page_indicator/page_indicator.dart';
@@ -16,12 +17,20 @@ class NowPlaying extends StatefulWidget {
 }
 
 class _NowPlayingState extends State<NowPlaying> {
-  double _position = 50;
-  int _page = 1;
+
+  PageController pageController;
+  double viewPortFraction = 0.6;
+  double pageOffset = 0;
 
   @override
   void initState(){    
     super.initState();
+    pageController = PageController(initialPage: 0,viewportFraction: viewPortFraction)
+    ..addListener(() { 
+      setState((){
+        pageOffset = pageController.page;
+      });
+    });
     nowPlayingMoviesBloc..getMovies();
   }
 
@@ -34,7 +43,7 @@ class _NowPlayingState extends State<NowPlaying> {
           if(snapshot.data.error != null && snapshot.data.error.length > 0){
             return _buildErrorWidget(snapshot.data.error);
           }
-          return _buildNowPlayingWidget(snapshot.data);
+          return _buildAnimatedPage(snapshot.data);
         } else if (snapshot.hasError){
           return _buildErrorWidget(snapshot.error);
         } else {
@@ -44,12 +53,11 @@ class _NowPlayingState extends State<NowPlaying> {
     );
   }
   
-  Widget _buildNowPlayingWidget(MovieResponse data){
+  Widget _buildAnimatedPage(MovieResponse data){
     List<Movie> movies = data.movies;
     if(movies.length == 0){
       return Container(
         width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -58,105 +66,41 @@ class _NowPlayingState extends State<NowPlaying> {
           ],
         )
       );
-    } else
-    return Container(
-      height: MediaQuery.of(context).size.height,
+    } else return Container(
+      width: MediaQuery.of(context).size.width,
       child: PageIndicatorContainer(
         shape: IndicatorShape.circle(size: 6.0),
-        child: PageView.builder(
+        child: PageView.builder(         
+          controller: pageController,
           scrollDirection: Axis.horizontal,
-          itemCount: movies.take(5).length,
+          itemCount: movies.take(8).length,
           itemBuilder: (context, index){
+            double scale = max(viewPortFraction,(1 - (pageOffset - index).abs()) + viewPortFraction );
+            
             return Stack(
                 alignment: AlignmentDirectional.bottomCenter,
-                children: <Widget>[Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  border: Border.all(),
-                  image: DecorationImage(
-                    alignment: Alignment.center,
-                  fit: BoxFit.fitHeight,
-                  colorFilter: ColorFilter.mode(Style.Colors.emphasisBlack.withOpacity(0.2), BlendMode.dstATop),
-                  image:NetworkImage('https://image.tmdb.org/t/p/original/'+movies[index+7].backPoster))
-                ),                
-              ),
-                Container(
+                children: <Widget>[
+                  AnimatedContainer(
+                duration: Duration(milliseconds: 500),
+                curve: Curves.linear,
                 alignment: Alignment.bottomCenter,
-                margin: EdgeInsets.only(bottom:40),
+                margin: EdgeInsets.only(bottom: 0+scale*35),
                 height: 300,
-                width: 200,
+                width: 190,
                 decoration: BoxDecoration(
                   boxShadow: [BoxShadow(
                           color: Style.Colors.emphasisBlack.withOpacity(0.4),
                           spreadRadius: 5,
                           blurRadius: 7,
-                          offset: Offset(0, 3), // changes position of shadow
+                          offset: Offset(0, 5), // changes position of shadow
                         ),],
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.circular(30),
                   image: DecorationImage(
                     alignment: Alignment.center,
                     fit: BoxFit.fitHeight,                    
-                    image:NetworkImage('https://image.tmdb.org/t/p/original/'+movies[index+7].backPoster)
+                    image:NetworkImage('https://image.tmdb.org/t/p/original/'+movies[index+10].backPoster)
                   )
-                ),
-              ),
-              Positioned(
-                top:250,
-                width: 250,
-                child: Container(
-                  width: 400,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        movies[index+7].title,
-                        style: TextStyle(
-                          height: 1,
-                          color: Style.Colors.emphasisWhite,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 28.0, 
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                bottom: 360,
-                height: 50,
-                width: MediaQuery.of(context).size.width,
-                child: Container(
-                  width: 100,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                     Container(
-                       alignment: Alignment.center,
-                       height: 200,
-                       width: 130,                        
-                        decoration: BoxDecoration(
-                        boxShadow: [BoxShadow(
-                          color: Style.Colors.emphasisBlack.withOpacity(0.4),
-                          spreadRadius: 5,
-                          blurRadius: 7,
-                          offset: Offset(0, 3), // changes position of shadow
-                        ),],
-                        color: Style.Colors.emphasisRed,
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(10),),
-                        child:Text('Buy Ticket',style:TextStyle(
-                          height: 1,
-                          color: Style.Colors.emphasisWhite,
-                          fontSize: 18.0, 
-                        ),),
-                     ) 
-                    ],
-                  ),
                 ),
               ),
               ],
@@ -168,11 +112,13 @@ class _NowPlayingState extends State<NowPlaying> {
         padding: EdgeInsets.only(bottom: 20),
         indicatorColor: Style.Colors.emphasisBlack,
         indicatorSelectorColor: Style.Colors.emphasisYellow,
-        length: movies.take(5).length,
+        length: movies.take(8).length,
       ),
-    );
+      
+    );   
   }
   
+
   Widget  _buildErrorWidget(String error){
     return Center(
       child: Column(
@@ -201,5 +147,4 @@ class _NowPlayingState extends State<NowPlaying> {
       ),
     );
   }
- 
 }
