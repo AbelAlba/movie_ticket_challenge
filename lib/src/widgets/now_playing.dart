@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:movie_ticket_challenge/src/widgets/descrpition_playing.dart';
 import 'package:page_indicator/page_indicator.dart';
 
 
@@ -55,7 +56,7 @@ class _NowPlayingState extends State<NowPlaying> {
   
   Widget _buildAnimatedPage(MovieResponse data){
     List<Movie> movies = data.movies;
-    if(movies.length == 0){
+    if(movies.length == 0) {
       return Container(
         width: MediaQuery.of(context).size.width,
         child: Column(
@@ -70,7 +71,7 @@ class _NowPlayingState extends State<NowPlaying> {
       width: MediaQuery.of(context).size.width,
       child: PageIndicatorContainer(
         shape: IndicatorShape.circle(size: 6.0),
-        child: PageView.builder(         
+        child: PageView.builder(     
           controller: pageController,
           scrollDirection: Axis.horizontal,
           itemCount: movies.take(8).length,
@@ -79,7 +80,7 @@ class _NowPlayingState extends State<NowPlaying> {
             
             return Stack(
                 alignment: AlignmentDirectional.bottomCenter,
-                children: <Widget>[
+                children: <Widget>[ 
                   AnimatedContainer(
                 duration: Duration(milliseconds: 500),
                 curve: Curves.linear,
