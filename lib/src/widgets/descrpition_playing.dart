@@ -36,26 +36,6 @@ class _ShowDescriptionState extends State<ShowDescription> {
     List<Movie> movies = data.movies;
     return Stack(
       children: <Widget>[
-        Container(
-                alignment: Alignment.bottomCenter,
-                height:MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  boxShadow: [BoxShadow(
-                          color: Style.Colors.emphasisBlack.withOpacity(0.4),
-                          spreadRadius: 5,
-                          blurRadius: 7,
-                          offset: Offset(0, 5), // changes position of shadow
-                        ),],
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.circular(30),
-                  image: DecorationImage(
-                    alignment: Alignment.center,
-                    fit: BoxFit.fitHeight,
-                    image:NetworkImage('https://image.tmdb.org/t/p/original/'+movies[10].backPoster)
-                  )
-                ),
-              ),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,

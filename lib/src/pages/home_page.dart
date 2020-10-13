@@ -28,8 +28,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: Stack(
-        children: <Widget>[ 
-          ShowDescription(), 
+        children: <Widget>[           
           NowPlaying(),
         ],
       ),

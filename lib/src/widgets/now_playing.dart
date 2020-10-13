@@ -19,6 +19,7 @@ class NowPlaying extends StatefulWidget {
 
 class _NowPlayingState extends State<NowPlaying> {
 
+  int _index = 0;
   PageController pageController;
   double viewPortFraction = 0.6;
   double pageOffset = 0;
@@ -67,27 +68,13 @@ class _NowPlayingState extends State<NowPlaying> {
           ],
         )
       );
-    } else return Container(
-      width: MediaQuery.of(context).size.width,
-      child: PageIndicatorContainer(
-        shape: IndicatorShape.circle(size: 6.0),
-        child: PageView.builder(     
-          controller: pageController,
-          scrollDirection: Axis.horizontal,
-          itemCount: movies.take(8).length,
-          itemBuilder: (context, index){
-            double scale = max(viewPortFraction,(1 - (pageOffset - index).abs()) + viewPortFraction );
-            
-            return Stack(
-                alignment: AlignmentDirectional.bottomCenter,
-                children: <Widget>[ 
-                  AnimatedContainer(
-                duration: Duration(milliseconds: 500),
-                curve: Curves.linear,
+    } else return Stack(      
+      children: [
+        AnimatedContainer(
+                duration: Duration(milliseconds: 300),
                 alignment: Alignment.bottomCenter,
-                margin: EdgeInsets.only(bottom: 0+scale*35),
-                height: 300,
-                width: 190,
+                height:MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   boxShadow: [BoxShadow(
                           color: Style.Colors.emphasisBlack.withOpacity(0.4),
@@ -99,23 +86,73 @@ class _NowPlayingState extends State<NowPlaying> {
                   borderRadius: BorderRadius.circular(30),
                   image: DecorationImage(
                     alignment: Alignment.center,
-                    fit: BoxFit.fitHeight,                    
-                    image:NetworkImage('https://image.tmdb.org/t/p/original/'+movies[index+10].backPoster)
+                    fit: BoxFit.fitHeight,
+                    image:NetworkImage('https://image.tmdb.org/t/p/original/'+movies[_index+10].backPoster)
                   )
                 ),
               ),
-              ],
-            );
-          },
+        ShowDescription(),
+        Container(
+          width: MediaQuery.of(context).size.width,
+          child: PageIndicatorContainer(
+            shape: IndicatorShape.circle(size: 6.0),
+            child: PageView.builder(     
+              onPageChanged: (int index){
+                setState((){
+                  print("Current Page: " + index.toString());
+                  _index = index;
+                  int previousPage = index;
+                  if(index != 0) previousPage--;
+                  else previousPage = 2;
+                  print("Previous page: $previousPage");
+                });
+              },
+              controller: pageController,
+              scrollDirection: Axis.horizontal,
+              itemCount: movies.take(8).length,
+              itemBuilder: (context, index){
+                double scale = max(viewPortFraction,(1 - (pageOffset - index).abs()) + viewPortFraction );
+                
+                return Stack(
+                    alignment: AlignmentDirectional.bottomCenter,
+                    children: <Widget>[
+                      AnimatedContainer(
+                    duration: Duration(milliseconds: 500),
+                    curve: Curves.linear,
+                    alignment: Alignment.bottomCenter,
+                    margin: EdgeInsets.only(bottom: 0+scale*35),
+                    height: 300,
+                    width: 190,
+                    decoration: BoxDecoration(
+                      boxShadow: [BoxShadow(
+                              color: Style.Colors.emphasisBlack.withOpacity(0.4),
+                              spreadRadius: 5,
+                              blurRadius: 7,
+                              offset: Offset(0, 5), // changes position of shadow
+                            ),],
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.circular(30),
+                      image: DecorationImage(
+                        alignment: Alignment.center,
+                        fit: BoxFit.fitHeight,                    
+                        image:NetworkImage('https://image.tmdb.org/t/p/original/'+movies[index+10].backPoster)
+                      )
+                    ),
+                  ),
+                  ],
+                );
+              },
+            ),
+            align: IndicatorAlign.bottom,
+            indicatorSpace: 5.0,
+            padding: EdgeInsets.only(bottom: 20),
+            indicatorColor: Style.Colors.emphasisBlack,
+            indicatorSelectorColor: Style.Colors.emphasisYellow,
+            length: movies.take(8).length,
+          ),
+          
         ),
-        align: IndicatorAlign.bottom,
-        indicatorSpace: 5.0,
-        padding: EdgeInsets.only(bottom: 20),
-        indicatorColor: Style.Colors.emphasisBlack,
-        indicatorSelectorColor: Style.Colors.emphasisYellow,
-        length: movies.take(8).length,
-      ),
-      
+      ],
     );   
   }
   
