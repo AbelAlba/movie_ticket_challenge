@@ -1,7 +1,14 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:movie_ticket_challenge/src/widgets/descrpition_playing.dart';
+import 'package:movie_ticket_challenge/src/pages/ticket_page0.dart';
+import 'package:movie_ticket_challenge/src/pages/ticket_page1.dart';
+import 'package:movie_ticket_challenge/src/pages/ticket_page2.dart';
+import 'package:movie_ticket_challenge/src/pages/ticket_page3.dart';
+import 'package:movie_ticket_challenge/src/pages/ticket_page4.dart';
+import 'package:movie_ticket_challenge/src/pages/ticket_page5.dart';
+import 'package:movie_ticket_challenge/src/pages/ticket_page6.dart';
+import 'package:movie_ticket_challenge/src/pages/ticket_page7.dart';
 import 'package:page_indicator/page_indicator.dart';
 
 
@@ -91,10 +98,47 @@ class _NowPlayingState extends State<NowPlaying> {
                   )
                 ),
               ),
-        ShowDescription(),
-        Container(
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children:[
+                Container(
+              padding: EdgeInsets.only(top: 160),
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: Text(movies[_index+10].title,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  shadows: <Shadow>[
+                    Shadow(
+                      offset:Offset(5.0, 5.0),
+                      blurRadius: 5.0,
+                      color: Color.fromARGB(255, 0, 0, 0),
+                    )
+                  ],
+                  color: Style.Colors.emphasisWhite,
+                  fontSize: 35,
+              )),
+            ),]
+            ),
+            ]
+        ),
+        _buildDescription(),
+        Positioned(
+          bottom: 20,
+          height: MediaQuery.of(context).size.height/2.6,
           width: MediaQuery.of(context).size.width,
           child: PageIndicatorContainer(
+            align: IndicatorAlign.bottom,
+            indicatorSpace: 5.0,
+            padding: EdgeInsets.only(bottom: 20),
+            indicatorColor: Style.Colors.emphasisBlack,
+            indicatorSelectorColor: Style.Colors.emphasisYellow,
+            length: movies.take(8).length,
             shape: IndicatorShape.circle(size: 6.0),
             child: PageView.builder(     
               onPageChanged: (int index){
@@ -143,21 +187,13 @@ class _NowPlayingState extends State<NowPlaying> {
                 );
               },
             ),
-            align: IndicatorAlign.bottom,
-            indicatorSpace: 5.0,
-            padding: EdgeInsets.only(bottom: 20),
-            indicatorColor: Style.Colors.emphasisBlack,
-            indicatorSelectorColor: Style.Colors.emphasisYellow,
-            length: movies.take(8).length,
           ),
-          
         ),
       ],
     );   
   }
   
-
-  Widget  _buildErrorWidget(String error){
+  Widget _buildErrorWidget(String error){
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -185,4 +221,151 @@ class _NowPlayingState extends State<NowPlaying> {
       ),
     );
   }
+
+  Widget _buildDescription(){
+
+    return Stack(
+      children: <Widget>[
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+              Container(
+              child: Center(
+                child:Text('Popular with friends',style: TextStyle(fontSize: 12,color: Colors.white))
+              ),
+              alignment: Alignment.center,
+              height: 45,
+              width: MediaQuery.of(context).size.width/2,
+              margin: EdgeInsets.only(left:10,right:10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),color: Style.Colors.mainColor.withOpacity(1),
+                boxShadow: [BoxShadow(
+                color: Style.Colors.emphasisBlack.withOpacity(0.8),
+                spreadRadius: 5,
+                blurRadius: 30,
+                offset: Offset(0, 3), // changes position of shadow
+                ),
+              ],),
+            ),
+            Container(
+              child: Center(
+                child:Text('15+',style: TextStyle(fontSize: 12,color: Colors.white))
+              ),
+              alignment: Alignment.center,
+              height: 45,
+              width: MediaQuery.of(context).size.width/7,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),color: Style.Colors.mainColor.withOpacity(1),
+                
+                boxShadow: [BoxShadow(
+                color: Style.Colors.emphasisBlack.withOpacity(0.8),
+                spreadRadius: 5,
+                blurRadius: 30,
+                offset: Offset(0, 3), // changes position of shadow
+                ),
+              ],),
+            ),
+            FlatButton(onPressed: (){},
+              child: Container(
+              child: Center(
+                child:Text('5.0',style: TextStyle(fontWeight: FontWeight.w900,fontSize: 12,color: Colors.black))
+              ),
+              alignment: Alignment.center,
+              height: 45,
+              width: MediaQuery.of(context).size.width/5,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),color: Style.Colors.emphasisYellow.withOpacity(1),
+                boxShadow: [BoxShadow(
+                color: Style.Colors.emphasisBlack.withOpacity(0.8),
+                spreadRadius: 5,
+                blurRadius: 30,
+                offset: Offset(0, 3), // changes position of shadow
+                ),
+              ],),
+            ),
+          )
+            ]
+            ),            
+            SizedBox(height: 20),
+            Container(
+              child: Center(
+                child:Text(
+                  'First parameter ∙ Second Parameter ∙ Third Paramater',
+                  style: TextStyle(fontSize: 12,color: Colors.white))
+              ),
+              alignment: Alignment.center,
+              height: 45,
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.only(left:10,right:10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),color: Style.Colors.mainColor.withOpacity(0.4),
+                
+                boxShadow: [BoxShadow(
+                color: Style.Colors.emphasisBlack.withOpacity(0.7),
+                spreadRadius: 5,
+                blurRadius: 30,
+                offset: Offset(0, 3), // changes position of shadow
+                ),
+              ],),
+            ),
+            SizedBox(height: 15),
+            Container(width: 300,
+              child:Divider(color:Style.Colors.emphasisRed.withOpacity(0.4),thickness: 0.8, height: 10,)),
+            SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [FlatButton(onPressed: (){
+                _buildTicketPage();
+              },
+              child: Container(
+              child: Center(
+                child:Text('BUY TICKET',style: TextStyle(fontSize: 12,color: Colors.white))
+              ),
+              alignment: Alignment.center,
+              height: 45,
+              width: 120,
+              margin: EdgeInsets.only(bottom:50),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(18),color: Style.Colors.emphasisRed.withOpacity(0.9),
+                boxShadow: [BoxShadow(
+                color: Style.Colors.emphasisBlack.withOpacity(0.8),
+                spreadRadius: 10,
+                blurRadius: 30,
+                offset: Offset(0, 3), // changes position of shadow
+                ),
+              ],),
+            ),
+          )
+              ],
+            )
+        ],
+        ),
+      ],
+    );
+  }
+
+   _buildTicketPage(){
+     if (_index == 0){
+       Navigator.push(context, MaterialPageRoute(builder: (context) => TicketPage()));
+     } else if (_index == 1){
+       Navigator.push(context, MaterialPageRoute(builder: (context) => TicketPage1()));
+     } else if (_index == 2){
+       Navigator.push(context, MaterialPageRoute(builder: (context) => TicketPage2()));
+     } else if (_index == 3){
+       Navigator.push(context, MaterialPageRoute(builder: (context) => TicketPage3()));
+     } else if (_index == 4){
+       Navigator.push(context, MaterialPageRoute(builder: (context) => TicketPage4()));
+     } else if (_index == 5){
+       Navigator.push(context, MaterialPageRoute(builder: (context) => TicketPage5()));
+     } else if (_index == 6){
+       Navigator.push(context, MaterialPageRoute(builder: (context) => TicketPage6()));
+     } else if (_index == 7){
+       Navigator.push(context, MaterialPageRoute(builder: (context) => TicketPage7()));
+     }
+   }
 }

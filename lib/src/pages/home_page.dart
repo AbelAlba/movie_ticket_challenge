@@ -2,7 +2,6 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 
 import 'package:movie_ticket_challenge/src/style/theme.dart' as Style;
-import 'package:movie_ticket_challenge/src/widgets/descrpition_playing.dart';
 import 'package:movie_ticket_challenge/src/widgets/now_playing.dart';
 
 class HomePage extends StatefulWidget {
