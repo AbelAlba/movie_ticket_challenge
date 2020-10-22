@@ -1,6 +1,11 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+
+import 'package:movie_ticket_challenge/src/style/theme.dart' as Style;
+import 'package:movie_ticket_challenge/src/bloc/get_now_playing_bloc.dart';
+import 'package:movie_ticket_challenge/src/model/data.dart';
+import 'package:movie_ticket_challenge/src/model/data_response.dart';
 import 'package:movie_ticket_challenge/src/pages/ticket_page0.dart';
 import 'package:movie_ticket_challenge/src/pages/ticket_page1.dart';
 import 'package:movie_ticket_challenge/src/pages/ticket_page2.dart';
@@ -10,12 +15,6 @@ import 'package:movie_ticket_challenge/src/pages/ticket_page5.dart';
 import 'package:movie_ticket_challenge/src/pages/ticket_page6.dart';
 import 'package:movie_ticket_challenge/src/pages/ticket_page7.dart';
 import 'package:page_indicator/page_indicator.dart';
-
-
-import 'package:movie_ticket_challenge/src/style/theme.dart' as Style;
-import 'package:movie_ticket_challenge/src/bloc/get_now_playing_bloc.dart';
-import 'package:movie_ticket_challenge/src/model/data.dart';
-import 'package:movie_ticket_challenge/src/model/data_response.dart';
 
 class NowPlaying extends StatefulWidget {
   NowPlaying({Key key}) : super(key: key);
@@ -94,7 +93,7 @@ class _NowPlayingState extends State<NowPlaying> {
                   image: DecorationImage(
                     alignment: Alignment.center,
                     fit: BoxFit.fitHeight,
-                    image:NetworkImage('https://image.tmdb.org/t/p/original/'+movies[_index+10].backPoster)
+                    image:NetworkImage('https://image.tmdb.org/t/p/original/'+movies[_index+6].backPoster)
                   )
                 ),
               ),
@@ -107,10 +106,10 @@ class _NowPlayingState extends State<NowPlaying> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children:[
                 Container(
-              padding: EdgeInsets.only(top: 160),
+              padding: EdgeInsets.only(top: 140),
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
-              child: Text(movies[_index+10].title,
+              child: Text(movies[_index+6].title,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   shadows: <Shadow>[
@@ -127,7 +126,128 @@ class _NowPlayingState extends State<NowPlaying> {
             ),
             ]
         ),
-        _buildDescription(),
+        Stack(
+      children: <Widget>[
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+              Container(
+              child: Center(
+                child:Text(movies[_index].title,style: TextStyle(fontSize: 12,color: Colors.white))
+              ),
+              alignment: Alignment.center,
+              height: 45,
+              width: MediaQuery.of(context).size.width/2,
+              margin: EdgeInsets.only(left:10,right:10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),color: Style.Colors.mainColor.withOpacity(1),
+                boxShadow: [BoxShadow(
+                color: Style.Colors.emphasisBlack.withOpacity(0.8),
+                spreadRadius: 5,
+                blurRadius: 30,
+                offset: Offset(0, 3), // changes position of shadow
+                ),
+              ],),
+            ),
+            Container(
+              child: Center(
+                child:Text(movies[_index].popularity.toString(),style: TextStyle(fontSize: 12,color: Colors.white))
+              ),
+              alignment: Alignment.center,
+              height: 45,
+              width: MediaQuery.of(context).size.width/7,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),color: Style.Colors.mainColor.withOpacity(1),
+                
+                boxShadow: [BoxShadow(
+                color: Style.Colors.emphasisBlack.withOpacity(0.8),
+                spreadRadius: 5,
+                blurRadius: 30,
+                offset: Offset(0, 3), // changes position of shadow
+                ),
+              ],),
+            ),
+            FlatButton(onPressed: (){},
+              child: Container(
+              child: Center(
+                child:Text('5.0',style: TextStyle(fontWeight: FontWeight.w900,fontSize: 12,color: Colors.black))
+              ),
+              alignment: Alignment.center,
+              height: 45,
+              width: MediaQuery.of(context).size.width/5,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),color: Style.Colors.emphasisYellow.withOpacity(1),
+                boxShadow: [BoxShadow(
+                color: Style.Colors.emphasisBlack.withOpacity(0.8),
+                spreadRadius: 5,
+                blurRadius: 30,
+                offset: Offset(0, 3), // changes position of shadow
+                ),
+              ],),
+            ),
+          )
+            ]
+            ),            
+            SizedBox(height: 20),
+            Container(
+              child: Center(
+                child:Text(
+                  'First parameter ∙ Second Parameter ∙ Third Paramater',
+                  style: TextStyle(fontSize: 12,color: Colors.white))
+              ),
+              alignment: Alignment.center,
+              height: 45,
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.only(left:10,right:10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),color: Style.Colors.mainColor.withOpacity(0.4),
+                boxShadow: [BoxShadow(
+                color: Style.Colors.emphasisBlack.withOpacity(0.7),
+                spreadRadius: 5,
+                blurRadius: 30,
+                offset: Offset(0, 3), // changes position of shadow
+                ),
+              ],),
+            ),
+            SizedBox(height: 15),
+            Container(width: 300,
+              child:Divider(color:Style.Colors.emphasisRed.withOpacity(0.6),thickness: 0.8, height: 10,)),
+            SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [FlatButton(onPressed: (){
+                _buildTicketPage();
+              },
+              child: Container(
+              child: Center(
+                child:Text('BUY TICKET',style: TextStyle(fontSize: 12,color: Colors.white))
+              ),
+              alignment: Alignment.center,
+              height: 45,
+              width: 120,
+              margin: EdgeInsets.only(bottom:50),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(18),color: Colors.red.withOpacity(0.6),
+                boxShadow: [BoxShadow(
+                color: Style.Colors.emphasisBlack.withOpacity(0.8),
+                spreadRadius: 10,
+                blurRadius: 30,
+                offset: Offset(0, 3), // changes position of shadow
+                ),
+              ],),
+            ),
+          )
+              ],
+            )
+        ],
+        ),
+      ],
+    ),
         Positioned(
           bottom: 20,
           height: MediaQuery.of(context).size.height/2.6,
@@ -179,7 +299,7 @@ class _NowPlayingState extends State<NowPlaying> {
                       image: DecorationImage(
                         alignment: Alignment.center,
                         fit: BoxFit.fitHeight,                    
-                        image:NetworkImage('https://image.tmdb.org/t/p/original/'+movies[index+10].backPoster)
+                        image:NetworkImage('https://image.tmdb.org/t/p/original/'+movies[index+6].backPoster)
                       )
                     ),
                   ),
@@ -222,132 +342,6 @@ class _NowPlayingState extends State<NowPlaying> {
     );
   }
 
-  Widget _buildDescription(){
-
-    return Stack(
-      children: <Widget>[
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-              Container(
-              child: Center(
-                child:Text('Popular with friends',style: TextStyle(fontSize: 12,color: Colors.white))
-              ),
-              alignment: Alignment.center,
-              height: 45,
-              width: MediaQuery.of(context).size.width/2,
-              margin: EdgeInsets.only(left:10,right:10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),color: Style.Colors.mainColor.withOpacity(1),
-                boxShadow: [BoxShadow(
-                color: Style.Colors.emphasisBlack.withOpacity(0.8),
-                spreadRadius: 5,
-                blurRadius: 30,
-                offset: Offset(0, 3), // changes position of shadow
-                ),
-              ],),
-            ),
-            Container(
-              child: Center(
-                child:Text('15+',style: TextStyle(fontSize: 12,color: Colors.white))
-              ),
-              alignment: Alignment.center,
-              height: 45,
-              width: MediaQuery.of(context).size.width/7,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),color: Style.Colors.mainColor.withOpacity(1),
-                
-                boxShadow: [BoxShadow(
-                color: Style.Colors.emphasisBlack.withOpacity(0.8),
-                spreadRadius: 5,
-                blurRadius: 30,
-                offset: Offset(0, 3), // changes position of shadow
-                ),
-              ],),
-            ),
-            FlatButton(onPressed: (){},
-              child: Container(
-              child: Center(
-                child:Text('5.0',style: TextStyle(fontWeight: FontWeight.w900,fontSize: 12,color: Colors.black))
-              ),
-              alignment: Alignment.center,
-              height: 45,
-              width: MediaQuery.of(context).size.width/5,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),color: Style.Colors.emphasisYellow.withOpacity(1),
-                boxShadow: [BoxShadow(
-                color: Style.Colors.emphasisBlack.withOpacity(0.8),
-                spreadRadius: 5,
-                blurRadius: 30,
-                offset: Offset(0, 3), // changes position of shadow
-                ),
-              ],),
-            ),
-          )
-            ]
-            ),            
-            SizedBox(height: 20),
-            Container(
-              child: Center(
-                child:Text(
-                  'First parameter ∙ Second Parameter ∙ Third Paramater',
-                  style: TextStyle(fontSize: 12,color: Colors.white))
-              ),
-              alignment: Alignment.center,
-              height: 45,
-              width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.only(left:10,right:10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),color: Style.Colors.mainColor.withOpacity(0.4),
-                
-                boxShadow: [BoxShadow(
-                color: Style.Colors.emphasisBlack.withOpacity(0.7),
-                spreadRadius: 5,
-                blurRadius: 30,
-                offset: Offset(0, 3), // changes position of shadow
-                ),
-              ],),
-            ),
-            SizedBox(height: 15),
-            Container(width: 300,
-              child:Divider(color:Style.Colors.emphasisRed.withOpacity(0.4),thickness: 0.8, height: 10,)),
-            SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [FlatButton(onPressed: (){
-                _buildTicketPage();
-              },
-              child: Container(
-              child: Center(
-                child:Text('BUY TICKET',style: TextStyle(fontSize: 12,color: Colors.white))
-              ),
-              alignment: Alignment.center,
-              height: 45,
-              width: 120,
-              margin: EdgeInsets.only(bottom:50),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(18),color: Style.Colors.emphasisRed.withOpacity(0.9),
-                boxShadow: [BoxShadow(
-                color: Style.Colors.emphasisBlack.withOpacity(0.8),
-                spreadRadius: 10,
-                blurRadius: 30,
-                offset: Offset(0, 3), // changes position of shadow
-                ),
-              ],),
-            ),
-          )
-              ],
-            )
-        ],
-        ),
-      ],
-    );
-  }
 
    _buildTicketPage(){
      if (_index == 0){

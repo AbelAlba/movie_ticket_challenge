@@ -1,6 +1,7 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_ticket_challenge/src/bloc/get_now_playing_bloc.dart';
+import 'package:movie_ticket_challenge/src/model/data.dart';
 
 import 'package:movie_ticket_challenge/src/model/data_response.dart';
 import 'package:movie_ticket_challenge/src/style/theme.dart' as Style;
@@ -62,11 +63,23 @@ class _TicketPage5State extends State<TicketPage5> {
   }
 
   Widget _buildTicketPage5(MovieResponse data){
+    List<Movie> movies = data.movies;
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: Style.Colors.mainColor,
       appBar: AppBar(
-        title: Text('5'),
+        title: Text(movies[11].title,
+        style: TextStyle(
+                  shadows: <Shadow>[
+                    Shadow(
+                      offset:Offset(5.0, 5.0),
+                      blurRadius: 5.0,
+                      color: Color.fromARGB(255, 0, 0, 0),
+                    )
+                  ],
+                  color: Style.Colors.emphasisWhite,
+                  fontSize: 18,
+              )),
         automaticallyImplyLeading: true,
         elevation: 30,
         backgroundColor: Colors.transparent,
